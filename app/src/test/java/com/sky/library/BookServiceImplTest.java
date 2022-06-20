@@ -37,8 +37,9 @@ public class BookServiceImplTest {
         );
 
         assertEquals("Book reference must be prefixed by BOOK-. The invalid book reference is: INVALID-TEXT", bookNotFoundException.getMessage());
-    }@Test
+    }
 
+    @Test
     void shouldThrowErrorWhenRetrieveBookByNullReference() {
         BookService bookService = new BookServiceImpl(new BookRepositoryStub());
 
@@ -62,7 +63,16 @@ public class BookServiceImplTest {
                 "Expected getBookSummary() to throw exception because BOOK-999 does not exist, but it did not "
         );
 
-        assertEquals("No book is found for book reference: BOOK-999", bookNotFoundException.getMessage());
+        assertEquals("No book is found for book reference: BOOK-999",
+                bookNotFoundException.getMessage());
+    }
+
+    @Test
+    void shouldGiveBookSummary() {
+        BookService bookService = new BookServiceImpl(new BookRepositoryStub());
+
+        assertEquals("[BOOK-GRUFF472] The Gruffalo - A mouse taking a walk in the woods.",
+                bookService.getBookSummary("BOOK-GRUFF472"));
     }
 
 }

@@ -23,6 +23,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public String getBookSummary(String bookReference) throws BookNotFoundException {
-        throw new BookNotFoundException(bookReference);
+        Book book = bookRepository.retrieveBook(bookReference);
+
+        if (book == null)
+            throw new BookNotFoundException(bookReference);
+
+        return String.format("[%s] %s - %s", bookReference, book.getTitle(), book.getReview());
     }
 }
