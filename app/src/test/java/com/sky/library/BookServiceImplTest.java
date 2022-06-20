@@ -2,13 +2,12 @@ package com.sky.library;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BookServiceImplTest {
 
     @Test
-    void throwExceptionWhenBooksAreNotFound() {
+    void throwExceptionWhenBookAreNotFound() {
         BookService bookService = new BookServiceImpl(new BookRepositoryStub());
 
         BookNotFoundException bookNotFoundException = assertThrows(
@@ -18,6 +17,17 @@ public class BookServiceImplTest {
         );
 
         assertTrue(bookNotFoundException.getMessage().contains("BOOK-999"));
+    }
+
+    @Test
+    void shouldRetrieveBookByReference() {
+        BookService bookService = new BookServiceImpl(new BookRepositoryStub());
+        try {
+            assertEquals(bookService.retrieveBook("BOOK-GRUFF472"),
+                    new Book("BOOK-GRUFF472", "The Gruffalo", "A mouse taking a walk in the woods."));
+        } catch (BookNotFoundException e) {
+            fail("should not have failed", e);
+        }
     }
 
 }
