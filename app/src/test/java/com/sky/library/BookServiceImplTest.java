@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookServiceImplTest {
 
     @Test
-    void throwExceptionWhenBookAreNotFound() {
+    void shouldThrowExceptionWhenRetrieveBookByReferenceAndBookisNotFound() {
         BookService bookService = new BookServiceImpl(new BookRepositoryStub());
 
         BookNotFoundException bookNotFoundException = assertThrows(
