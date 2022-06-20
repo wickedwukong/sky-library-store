@@ -75,4 +75,15 @@ public class BookServiceImplTest {
                 bookService.getBookSummary("BOOK-GRUFF472"));
     }
 
+    @Test
+    void shouldGiveBookSummaryWithEndingEllipsisWhenBookReviewIsLongerThanNineWords() {
+        BookService bookService = new BookServiceImpl(new BookRepositoryStub());
+
+        assertEquals("[BOOK-POOH222] Winnie The Pooh - In this first volume, we meet all the friends...",
+                bookService.getBookSummary("BOOK-POOH222"));
+
+        assertEquals("[BOOK-WILL987] The Wind In The Willows - With the arrival of spring and fine weather outside...",
+                bookService.getBookSummary("BOOK-WILL987"));
+    }
+
 }
