@@ -23,6 +23,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public String getBookSummary(String bookReference) throws BookNotFoundException {
         validateBookReferencePrefix(bookReference);
+
         Book book = retrieveBookOrNoBookFoundError(bookReference);
 
         String reviewWithPossibleEllipsis = fullReviewOrEllipsisedLongReview(book.getReview());
@@ -45,13 +46,11 @@ public class BookServiceImpl implements BookService {
     }
 
     private String addEndingEllipsis(String the9thWord) {
-        String lastWordWithEllipsis;
         if (the9thWord.endsWith(",")) {
-            lastWordWithEllipsis = the9thWord.replace(",", "...");
+            return the9thWord.substring(0, the9thWord.length() - 1) + "...";
         } else {
-            lastWordWithEllipsis = the9thWord + "...";
+            return the9thWord + "...";
         }
-        return lastWordWithEllipsis;
     }
 
     private Book retrieveBookOrNoBookFoundError(String bookReference) {
