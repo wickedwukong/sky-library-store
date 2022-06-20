@@ -8,6 +8,8 @@ package com.sky.library;
 import java.util.Objects;
 
 public class Book {
+    public static final String BOOK_REFERENCE_PREFIX = "BOOK-";
+
     private String reference;
     private String title;
     private String review;

@@ -1,5 +1,7 @@
 package com.sky.library;
 
+import static com.sky.library.Book.BOOK_REFERENCE_PREFIX;
+
 public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
@@ -9,6 +11,9 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book retrieveBook(String bookReference) throws BookNotFoundException {
+        if (bookReference == null || !bookReference.startsWith(BOOK_REFERENCE_PREFIX))
+            throw new InvalidBookReferencePrefixException(bookReference);
+
         Book book = bookRepository.retrieveBook(bookReference);
         if (book == null)
             throw new BookNotFoundException(bookReference);

@@ -5,7 +5,7 @@ package com.sky.library;
  * Please do not make your solution publicly available in any way e.g. post in forums or commit to GitHub.
  */
 
-public class BookNotFoundException extends Exception {
+public class BookNotFoundException extends RuntimeException {
 
     public BookNotFoundException(String bookReference) {
         super("No book is found for book reference: " + bookReference);

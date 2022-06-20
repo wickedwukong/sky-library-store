@@ -22,12 +22,21 @@ public class BookServiceImplTest {
     @Test
     void shouldRetrieveBookByReference() {
         BookService bookService = new BookServiceImpl(new BookRepositoryStub());
-        try {
-            assertEquals(bookService.retrieveBook("BOOK-GRUFF472"),
-                    new Book("BOOK-GRUFF472", "The Gruffalo", "A mouse taking a walk in the woods."));
-        } catch (BookNotFoundException e) {
-            fail("should not have failed", e);
-        }
+        assertEquals(bookService.retrieveBook("BOOK-GRUFF472"),
+                new Book("BOOK-GRUFF472", "The Gruffalo", "A mouse taking a walk in the woods."));
+    }
+
+    @Test
+    void shouldThrowErrorWhenRetrieveBookByInvalidReferencePrefix() {
+        BookService bookService = new BookServiceImpl(new BookRepositoryStub());
+
+        InvalidBookReferencePrefixException bookNotFoundException = assertThrows(
+                InvalidBookReferencePrefixException.class,
+                () -> bookService.retrieveBook("INVALID-TEXT"),
+                "Expected retrieveBook() to throw exception because Book Reference must be prefixed with BOOK- But it did not"
+        );
+
+        assertEquals("Book reference must be prefixed by BOOK-. The invalid book reference is: INVALID-TEXT", bookNotFoundException.getMessage());
     }
 
 }
