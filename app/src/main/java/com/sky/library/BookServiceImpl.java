@@ -2,7 +2,6 @@ package com.sky.library;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import static com.sky.library.Book.BOOK_REFERENCE_PREFIX;
 
@@ -15,16 +14,16 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book retrieveBook(String bookReference) throws BookNotFoundException, InvalidBookReferencePrefixException {
-        if (bookReference == null || !bookReference.startsWith(BOOK_REFERENCE_PREFIX))
-            throw new InvalidBookReferencePrefixException(bookReference);
+        validateBookReferencePrefix(bookReference);
 
-        return retrieveBookOrError(bookReference);
+        return retrieveBookOrNoBookFoundError(bookReference);
     }
 
 
     @Override
     public String getBookSummary(String bookReference) throws BookNotFoundException {
-        Book book = retrieveBookOrError(bookReference);
+        validateBookReferencePrefix(bookReference);
+        Book book = retrieveBookOrNoBookFoundError(bookReference);
 
         String reviewWithPossibleEllipsis = fullReviewOrEllipsisedLongReview(book.getReview());
 
@@ -55,10 +54,15 @@ public class BookServiceImpl implements BookService {
         return lastWordWithEllipsis;
     }
 
-    private Book retrieveBookOrError(String bookReference) {
+    private Book retrieveBookOrNoBookFoundError(String bookReference) {
         Book book = bookRepository.retrieveBook(bookReference);
         if (book == null)
             throw new BookNotFoundException(bookReference);
         return book;
+    }
+
+    private void validateBookReferencePrefix(String bookReference) {
+        if (bookReference == null || !bookReference.startsWith(BOOK_REFERENCE_PREFIX))
+            throw new InvalidBookReferencePrefixException(bookReference);
     }
 }

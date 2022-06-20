@@ -30,13 +30,13 @@ public class BookServiceImplTest {
     void shouldThrowErrorWhenRetrieveBookByInvalidReferencePrefix() {
         BookService bookService = new BookServiceImpl(new BookRepositoryStub());
 
-        InvalidBookReferencePrefixException bookNotFoundException = assertThrows(
+        InvalidBookReferencePrefixException invalidBookReferencePrefixException = assertThrows(
                 InvalidBookReferencePrefixException.class,
                 () -> bookService.retrieveBook("INVALID-TEXT"),
                 "Expected retrieveBook() to throw exception because Book Reference must be prefixed with BOOK- But it did not"
         );
 
-        assertEquals("Book reference must be prefixed by BOOK-. The invalid book reference is: INVALID-TEXT", bookNotFoundException.getMessage());
+        assertEquals("Book reference must be prefixed by BOOK-. The invalid book reference is: INVALID-TEXT", invalidBookReferencePrefixException.getMessage());
     }
 
     @Test
@@ -84,6 +84,19 @@ public class BookServiceImplTest {
 
         assertEquals("[BOOK-WILL987] The Wind In The Willows - With the arrival of spring and fine weather outside...",
                 bookService.getBookSummary("BOOK-WILL987"));
+    }
+
+    @Test
+    void shouldThrowErrorWhenGetBookSummaryByInvalidReferencePrefix() {
+        BookService bookService = new BookServiceImpl(new BookRepositoryStub());
+
+        InvalidBookReferencePrefixException invalidBookReferencePrefixException = assertThrows(
+                InvalidBookReferencePrefixException.class,
+                () -> bookService.getBookSummary("INVALID-TEXT"),
+                "Expected getBookSummary() to throw exception because Book Reference must be prefixed with BOOK- But it did not"
+        );
+
+        assertEquals("Book reference must be prefixed by BOOK-. The invalid book reference is: INVALID-TEXT", invalidBookReferencePrefixException.getMessage());
     }
 
 }
