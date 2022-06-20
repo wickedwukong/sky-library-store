@@ -7,4 +7,7 @@ package com.sky.library;
 
 public class BookNotFoundException extends Exception {
 
+    public BookNotFoundException(String bookReference) {
+        super("No book is found for book reference: " + bookReference);
+    }
 }
