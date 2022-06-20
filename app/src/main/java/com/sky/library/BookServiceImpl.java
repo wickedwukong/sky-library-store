@@ -23,6 +23,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public String getBookSummary(String bookReference) throws BookNotFoundException {
-        throw new RuntimeException("Not yet implemented");
+        throw new BookNotFoundException(bookReference);
     }
 }

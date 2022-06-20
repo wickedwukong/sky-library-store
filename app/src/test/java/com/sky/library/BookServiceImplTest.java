@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BookServiceImplTest {
 
     @Test
-    void shouldThrowExceptionWhenRetrieveBookByReferenceAndBookisNotFound() {
+    void shouldThrowExceptionWhenRetrieveBookByReferenceAndBookIsNotFound() {
         BookService bookService = new BookServiceImpl(new BookRepositoryStub());
 
         BookNotFoundException bookNotFoundException = assertThrows(
@@ -16,7 +16,7 @@ public class BookServiceImplTest {
                 "Expected retrieveBook() to throw exception because BOOK-999 does not exist, but it did not "
         );
 
-        assertTrue(bookNotFoundException.getMessage().contains("BOOK-999"));
+        assertEquals("No book is found for book reference: BOOK-999", bookNotFoundException.getMessage());
     }
 
     @Test
@@ -49,6 +49,20 @@ public class BookServiceImplTest {
         );
 
         assertEquals("Book reference must be prefixed by BOOK-. The invalid book reference is: null", bookNotFoundException.getMessage());
+    }
+
+
+    @Test
+    void shouldThrowExceptionWhenGetBookSummaryByReferenceAndBookIsNotFound() {
+        BookService bookService = new BookServiceImpl(new BookRepositoryStub());
+
+        BookNotFoundException bookNotFoundException = assertThrows(
+                BookNotFoundException.class,
+                () -> bookService.getBookSummary("BOOK-999"),
+                "Expected getBookSummary() to throw exception because BOOK-999 does not exist, but it did not "
+        );
+
+        assertEquals("No book is found for book reference: BOOK-999", bookNotFoundException.getMessage());
     }
 
 }
